@@ -1,0 +1,32 @@
+﻿@model BusinessTransactionResultViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @if (Model != null && !string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <h1 class="display-4">@Model.ErrorMessage</h1>
+        <form asp-action="Index" method="post">
+            <h2>Submit your new username</h2>
+            <input type="text" name="username" placeholder="Type your new username here..."/>
+            <input type="submit" value="Submit"/>
+        </form>
+    }
+    else
+    {
+        if (Model != null && string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <h1 class="display-4">Your new username is successfully submitted</h1>
+        }
+        else
+        {
+            <form asp-action="Index" method="post">
+                <h2>Submit your new username</h2>
+                <input type="text" name="username" placeholder="Type your new username here..."/>
+                <input type="submit" value="Submit"/>
+            </form>
+        }
+    }
+
+</div>
