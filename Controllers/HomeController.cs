@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LoggingLearning.Services;
+using Serilog;
 
 namespace LoggingLearning.Controllers
 {
@@ -27,7 +28,16 @@ namespace LoggingLearning.Controllers
         [HttpPost]
         public IActionResult Index(string username)
         {
-            var result = businessTransactionService.ProcessSubmit(username);
+            var result = new BusinessTransactionResultViewModel("There some problems on out side, please try to submit your username later!");
+            try
+            {
+                result = businessTransactionService.ProcessSubmit(username);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "Error with submitted username \"{A}\"", username);
+            }
+
             return View(result);
         }
 

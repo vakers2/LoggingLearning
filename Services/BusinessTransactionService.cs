@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using LoggingLearning.Models;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
@@ -31,17 +33,19 @@ namespace LoggingLearning.Services
                 return new BusinessTransactionResultViewModel("Your username contains restricted symbols, it should contain only letters!");
             }
 
-            Log.Information("Sending newly submitted username \"{A}\" to remote server", username);
+            Log.Information("Sending newly submitted username \"{username}\" to remote server", username);
 
             try
             {
                 remoteServerService.SendUsernameToRemoteServer(username);
+                Log.Information("Submitting username \"{username}\" to remote server is successfully completed",
+                    username);
                 return new BusinessTransactionResultViewModel();
             }
             catch (Exception e)
             {
-                Log.Error(e, "Error while sending submitted username \"{A}\" to remote server", username);
-                return new BusinessTransactionResultViewModel("There some problems on out side, please try to submit your username later!");
+                //Log.Error(e, "Error while sending submitted username \"{A}\" to remote server", username);
+                throw new OutOfMemoryException("Not enough memory", e);
             }
         }
     }
