@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LoggingLearning.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 
 namespace LoggingLearning.Controllers
@@ -20,27 +22,31 @@ namespace LoggingLearning.Controllers
             this.businessTransactionService = businessTransactionService;
         }
 
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (HttpContext.Request.Path != "/privacy" && !HttpContext.Request.Cookies.ContainsKey("tc-accepted"))
+            {
+                filterContext.Result = RedirectToAction("Privacy");
+            }
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(string username)
+        public IActionResult Index(FormModel model)
         {
-            var result = new BusinessTransactionResultViewModel("There some problems on out side, please try to submit your username later!");
-            try
+            if (!TryValidateModel(model, nameof(FormModel)))
             {
-                result = businessTransactionService.ProcessSubmit(username);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Error with submitted username \"{A}\"", username);
+                return View(model);
             }
 
-            return View(result);
+            return View(new FormModel());
         }
 
+        [Route("privacy")]
         public IActionResult Privacy()
         {
             return View();

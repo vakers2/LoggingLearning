@@ -1,0 +1,23 @@
+﻿@model FormModel
+ 
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.LabelFor(m => m.Username)
+        @Html.EditorFor(m => m.Username)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Age)
+        @Html.EditorFor(m => m.Age)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+}
