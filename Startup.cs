@@ -8,9 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LoggingLearning.Attributes;
 using LoggingLearning.Binders;
 using LoggingLearning.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Serilog;
 
 namespace LoggingLearning
@@ -36,6 +38,9 @@ namespace LoggingLearning
             services.AddHttpContextAccessor();
             services.AddScoped<IRemoteServerService, RemoteServerService>();
             services.AddScoped<IBusinessTransactionService, BusinessTransactionService>();
+
+            services.AddSingleton<IValidationAttributeAdapterProvider,
+                EvenNumberAttributeAdapterProvider>();
 
             services.AddControllersWithViews(o =>
             {

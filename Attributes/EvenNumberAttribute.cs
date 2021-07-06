@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LoggingLearning.Attributes
@@ -39,11 +40,28 @@ namespace LoggingLearning.Attributes
 
             if (number > Max)
             {
-                return new ValidationResult($"Number must be less than {Min}.");
+                return new ValidationResult($"Number must be less than {Max}.");
             }
 
 
             return ValidationResult.Success;
+        }
+
+        internal string GetErrorMessage()
+        {
+            var stringBuilder = new StringBuilder("Number must be even. ");
+            if (Min != int.MinValue)
+            {
+                stringBuilder.Append($"Number must be equal or greater than {Min}. ");
+            } 
+            
+            if (Max != int.MaxValue)
+            {
+                stringBuilder.Append($"Number must be equal or less than {Max}. ");
+            }
+
+
+            return stringBuilder.ToString();
         }
     }
 }
