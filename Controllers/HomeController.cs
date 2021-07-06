@@ -22,14 +22,16 @@ namespace LoggingLearning.Controllers
             this.businessTransactionService = businessTransactionService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            if (HttpContext.Request.Path != "/privacy" && !HttpContext.Request.Cookies.ContainsKey("tc-accepted"))
-            {
-                filterContext.Result = RedirectToAction("Privacy");
-            }
-        }
+        //public override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    if (HttpContext.Request.Path != "/privacy" && !HttpContext.Request.Cookies.ContainsKey("tc-accepted"))
+        //    {
+        //        filterContext.Result = RedirectToAction("Privacy");
+        //    }
+        //}
 
+        [Route("/")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -38,10 +40,10 @@ namespace LoggingLearning.Controllers
         [HttpPost]
         public IActionResult Index(FormModel model)
         {
-            if (!TryValidateModel(model, nameof(FormModel)))
-            {
-                return View(model);
-            }
+            //if (!TryValidateModel(model, nameof(FormModel)))
+            //{
+            //    return View(model);
+            //}
 
             return View(new FormModel());
         }

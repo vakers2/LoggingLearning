@@ -4,6 +4,7 @@
 }
 
 <div class="text-center">
+    <div asp-validation-summary="All"></div>
     @using (Html.BeginForm())
     {
         <div>
@@ -21,7 +22,7 @@
             <span asp-validation-for="Age"></span>
         </div>
         <div>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save"/>
         </div>
     }
 
